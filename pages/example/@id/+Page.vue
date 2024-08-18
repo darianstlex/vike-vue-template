@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import Link from '@/renderer/Link.vue';
 import { useUnit } from '@/renderer/effector';
-import { service } from './model';
+import { model } from './model';
 
-const [id] = useUnit([service.$id]);
+const [id] = useUnit([model.$id]);
 </script>

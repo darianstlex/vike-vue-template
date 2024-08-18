@@ -4,11 +4,11 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { service } from './model';
+import { model } from './model';
 import { useUnit } from '@/renderer/effector';
 
 const { value } = defineProps<{ value?: number }>();
-const setValue = useUnit(service.setValue);
+const setValue = useUnit(model.setValue);
 const state = reactive({ count: value || 0 });
 
 const onCLick = () => {

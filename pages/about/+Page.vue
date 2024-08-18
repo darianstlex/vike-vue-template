@@ -6,9 +6,9 @@
 
 <script lang="ts" setup>
 import { useUnit } from '@/renderer/effector';
-import { service } from './model';
+import { model } from './model';
 
-const info = useUnit(service.$info);
+const info = useUnit(model.$info);
 </script>
 
 <style>

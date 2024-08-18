@@ -10,6 +10,6 @@ sample({
   target: $id,
 });
 
-export const service = {
+export const model = {
   $id,
 }

@@ -14,7 +14,7 @@
 import Link from '@/renderer/Link.vue';
 import { useUnit } from '@/renderer/effector';
 import Counter from './Counter.vue'
-import { service } from './model';
+import { model } from './model';
 
-const [counterServer, counterClient] = useUnit([service.$counterServer, service.$counterClient]);
+const [counterServer, counterClient] = useUnit([model.$counterServer, model.$counterClient]);
 </script>

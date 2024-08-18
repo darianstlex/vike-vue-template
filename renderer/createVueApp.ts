@@ -1,13 +1,13 @@
-import type { Scope } from "effector";
-import { fork, serialize } from "effector";
+import type { Scope } from 'effector';
+import { fork, serialize } from 'effector';
 import type { PageContext } from 'vike/types'
 import { createSSRApp, h, shallowRef } from 'vue'
 
-import { setPageContext } from './usePageContext'
-import { setData } from './useData'
-import Layout from './Layout.vue'
 import { objectAssign } from './utils'
-import { setScope } from "./useScope";
+import { setData } from './useData'
+import { setPageContext } from './usePageContext'
+import { setScope } from './useScope';
+import Layout from './Layout.vue'
 
 export const createVueApp = (pageContext: PageContext) => {
   const pageContextRef = shallowRef(pageContext)
