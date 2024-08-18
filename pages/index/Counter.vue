@@ -1,0 +1,18 @@
+<template>
+  <button type="button" @click="onCLick">Counter {{ state.count }}</button>
+</template>
+
+<script lang="ts" setup>
+import { reactive } from 'vue'
+import { service } from './model';
+import { useUnit } from '@/renderer/effector';
+
+const { value } = defineProps<{ value?: number }>();
+const setValue = useUnit(service.setValue);
+const state = reactive({ count: value || 0 });
+
+const onCLick = () => {
+  state.count++;
+  setValue(state.count);
+};
+</script>
