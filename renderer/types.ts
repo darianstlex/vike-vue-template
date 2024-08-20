@@ -23,6 +23,8 @@ declare global {
         title?: string;
         /** Value for <meta name="description"> defined statically */
         description?: string;
+        /** Page init/start events */
+        pageInitiated?: EventCallable<{ params: Record<string, string>; data: unknown }>;
         pageStarted?: EventCallable<{ params: Record<string, string>; data: unknown }>;
       }
       /** https://vike.dev/render */

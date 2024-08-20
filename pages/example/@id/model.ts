@@ -1,11 +1,11 @@
 import { createStore, sample } from 'effector';
 
-import { pageStarted } from './+pageStarted';
+import { pageInitiated } from './+pageInitiated';
 
 const $id = createStore("", { sid: '$example-id' });
 
 sample({
-  clock: pageStarted.map(({ data }) => data),
+  clock: pageInitiated.map(({ data }) => data),
   fn: ({ sampleData: { id } }) => id,
   target: $id,
 });

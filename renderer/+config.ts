@@ -13,10 +13,15 @@ export default {
     },
     // Define new setting 'description'
     description: {
-      env: { server: true },
+      env: { server: true, client: true },
     },
+    // Event - fires on server side when the page gets initiated
+    pageInitiated: {
+      env: { client: false, server: true },
+    },
+    // Event - fires on client side when the page started
     pageStarted: {
-      env: { client: true, server: true },
+      env: { client: true, server: false },
     },
   },
   hydrationCanBeAborted: true,

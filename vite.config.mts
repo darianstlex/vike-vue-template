@@ -4,7 +4,11 @@ import { UserConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url';
 
 const config: UserConfig = {
-  plugins: [vue(), vike()],
+  plugins: [vue({
+    script: {
+      propsDestructure: true,
+    },
+  }), vike()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./', import.meta.url)),
