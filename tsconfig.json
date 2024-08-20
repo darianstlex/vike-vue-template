@@ -11,6 +11,8 @@
     "esModuleInterop": true,
     "paths": {
       "@/*": ["./*"],
+      "@utils/*": ["./utils/*"],
+      "@services/*": ["./services/*"],
     }
   },
   "ts-node": {

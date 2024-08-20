@@ -1,3 +1,3 @@
-import { createPageStart } from '@/renderer/events';
+import { createPageStart } from '@utils/events';
 
 export const pageStarted = createPageStart();

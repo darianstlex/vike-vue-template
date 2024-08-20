@@ -11,6 +11,6 @@
 
 <script lang="ts" setup>
 import type { Data } from './+data'
-import { useData } from '@/renderer/useData'
+import { useData } from '@utils/useData'
 const data = useData<Data>()
 </script>

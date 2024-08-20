@@ -14,7 +14,7 @@ a.active {
 </style>
 <script lang="ts" setup>
 import { useAttrs, computed } from 'vue'
-import { usePageContext } from './usePageContext'
+import { usePageContext } from '@utils/usePageContext'
 
 const pageContext = usePageContext()
 const { href } = useAttrs() as { href: string }

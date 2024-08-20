@@ -1,30 +1,30 @@
 import type { Scope } from 'effector';
 import { fork, serialize } from 'effector';
-import type { PageContext } from 'vike/types'
-import { createSSRApp, h, shallowRef } from 'vue'
+import type { PageContext } from 'vike/types';
+import { createSSRApp, h, shallowRef } from 'vue';
 
-import { objectAssign } from './utils'
-import { setData } from './useData'
-import { setPageContext } from './usePageContext'
-import { setScope } from './useScope';
-import Layout from './Layout.vue'
+import { objectAssign } from '@utils/objectAssign';
+import { setData } from '@utils/useData';
+import { setPageContext } from '@utils/usePageContext';
+import { setScope } from '@utils/useScope';
+import Layout from './Layout.vue';
 
 export const createVueApp = (pageContext: PageContext) => {
-  const pageContextRef = shallowRef(pageContext)
-  const dataRef = shallowRef(pageContext.data)
-  const pageRef = shallowRef(pageContext.Page)
+  const pageContextRef = shallowRef(pageContext);
+  const dataRef = shallowRef(pageContext.data);
+  const pageRef = shallowRef(pageContext.Page);
 
   const scope =
     "scope" in pageContext
       ? pageContext.scope
       : fork(pageContext.scopeValues ? { values: pageContext.scopeValues } : undefined);
 
-  const scopeRef = shallowRef(scope as Scope)
+  const scopeRef = shallowRef(scope as Scope);
 
-  const RootComponent = () => h(Layout, null, () => h(pageRef.value))
-  const app = createSSRApp(RootComponent)
-  setPageContext(app, pageContextRef)
-  setData(app, dataRef)
+  const RootComponent = () => h(Layout, null, () => h(pageRef.value));
+  const app = createSSRApp(RootComponent);
+  setPageContext(app, pageContextRef);
+  setData(app, dataRef);
   setScope(app, scopeRef);
 
   // app.changePage() is called upon navigation, see +onRenderClient.ts
@@ -38,7 +38,7 @@ export const createVueApp = (pageContext: PageContext) => {
       dataRef.value = pageContext.data;
       pageRef.value = pageContext.Page;
     }
-  })
+  });
 
-  return app
+  return app;
 }

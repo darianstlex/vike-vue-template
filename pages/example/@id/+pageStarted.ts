@@ -1,4 +1,4 @@
-import { createPageStart } from '@/renderer/events';
+import { createPageStart } from '@utils/events';
 
 import type { data } from './+data';
 

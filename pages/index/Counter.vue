@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { model } from './model';
-import { useUnit } from '@/renderer/effector';
+import { useUnit } from '@utils/effector';
 
 const { value } = defineProps<{ value?: number }>();
 const setValue = useUnit(model.setValue);

@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import Link from '@/renderer/Link.vue';
-import { useUnit } from '@/renderer/effector';
+import { useUnit } from '@utils/effector';
 import Counter from './Counter.vue'
 import { model } from './model';
 

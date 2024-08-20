@@ -1,4 +1,4 @@
-import type { Config } from 'vike/types'
+import type { Config } from 'vike/types';
 
 // https://vike.dev/config
 export default {
@@ -9,15 +9,15 @@ export default {
   meta: {
     // Define new setting 'title'
     title: {
-      env: { server: true, client: true }
+      env: { server: true, client: true },
     },
     // Define new setting 'description'
     description: {
-      env: { server: true }
+      env: { server: true },
     },
     pageStarted: {
       env: { client: true, server: true },
     },
   },
-  hydrationCanBeAborted: true
+  hydrationCanBeAborted: true,
 } satisfies Config
