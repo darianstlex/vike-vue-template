@@ -1,3 +1,5 @@
 import { createPageStart } from '@utils/events';
 
-export const pageStarted = createPageStart();
+import type { data } from "./+data";
+
+export const pageStarted = createPageStart<Awaited<ReturnType<typeof data>>>();
