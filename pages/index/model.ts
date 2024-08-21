@@ -5,15 +5,9 @@ import { pageStarted } from './+pageStarted';
 
 export const setValue = createEvent<number>();
 
-export const $counterServer = createStore(0, { sid: '$counter' }).on(
-  setValue,
-  (val) => val + 1,
-);
+export const $counterServer = createStore(0, { sid: '$counter' }).on(setValue, (val) => val + 1);
 
-export const $counterClient = createStore(0, { sid: '$counter-front' }).on(
-  setValue,
-  (_, val) => val,
-);
+export const $counterClient = createStore(0, { sid: '$counter-front' }).on(setValue, (_, val) => val);
 
 sample({
   clock: pageInitiated,

@@ -11,9 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import Link from '@/renderer/Link.vue';
 import { useUnit } from '@utils/effector';
-import Counter from './Counter.vue'
+
+import Link from '@/renderer/Link.vue';
+
+import Counter from './Counter.vue';
 import { model } from './model';
 
 const [counterServer, counterClient] = useUnit([model.$counterServer, model.$counterClient]);

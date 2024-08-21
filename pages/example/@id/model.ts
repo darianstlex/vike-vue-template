@@ -2,7 +2,7 @@ import { createStore, sample } from 'effector';
 
 import { pageInitiated } from './+pageInitiated';
 
-const $id = createStore("", { sid: '$example-id' });
+const $id = createStore('', { sid: '$example-id' });
 
 sample({
   clock: pageInitiated.map(({ data }) => data),
@@ -12,4 +12,4 @@ sample({
 
 export const model = {
   $id,
-}
+};

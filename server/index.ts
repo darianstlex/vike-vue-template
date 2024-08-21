@@ -11,41 +11,57 @@
 //  - HatTip (https://github.com/hattipjs/hattip)
 //    - You can use Bati (https://batijs.dev/) to scaffold a Vike + HatTip app. Note that Bati generates apps that use the V1 design (https://vike.dev/migration/v1-design) and Vike packages (https://vike.dev/vike-packages)
 
-import express from 'express'
-import compression from 'compression'
-import { renderPage } from 'vike/server'
-import { root } from './root.js'
-const isProduction = process.env.NODE_ENV === 'production'
+import compression from 'compression';
+import express from 'express';
+import { config, telefunc } from 'telefunc';
+import { renderPage } from 'vike/server';
 
-startServer()
+config.telefuncUrl = '/api/_intercom';
+
+import { root } from './root.js';
+const isProduction = process.env.NODE_ENV === 'production';
+
+startServer();
 
 async function startServer() {
-  const app = express()
+  const app = express();
 
-  app.use(compression())
+  app.use(compression());
 
   // Vite integration
   if (isProduction) {
     // In production, we need to serve our static assets ourselves.
     // (In dev, Vite's middleware serves our static assets.)
-    const sirv = (await import('sirv')).default
-    app.use(sirv(`${root}/dist/client`))
+    const sirv = (await import('sirv')).default;
+    app.use(sirv(`${root}/dist/client`));
   } else {
     // We instantiate Vite's development server and integrate its middleware to our server.
     // ⚠️ We instantiate it only in development. (It isn't needed in production and it
     // would unnecessarily bloat our production server.)
-    const vite = await import('vite')
+    const vite = await import('vite');
     const viteDevMiddleware = (
       await vite.createServer({
         root,
-        server: { middlewareMode: true }
+        server: { middlewareMode: true },
       })
-    ).middlewares
-    app.use(viteDevMiddleware)
+    ).middlewares;
+    app.use(viteDevMiddleware);
   }
 
+  app.all('/api/_intercom', async (req, res) => {
+    const context = {};
+    const httpResponse = await telefunc({
+      url: req.originalUrl,
+      method: req.method,
+      body: req.body,
+      context,
+    });
+    const { body, contentType, statusCode } = httpResponse;
+    res.status(statusCode).type(contentType).send(body);
+  });
+
   // ...
-  // Other middlewares (e.g. some RPC middleware such as Telefunc)
+  // Other middlewares (e.g. some RPC middleware)
   // ...
 
   // Vike middleware. It should always be our last middleware (because it's a
@@ -53,26 +69,26 @@ async function startServer() {
   app.get('*', async (req, res, next) => {
     const pageContextInit = {
       urlOriginal: req.originalUrl,
-      headersOriginal: req.headers
-    }
-    const pageContext = await renderPage(pageContextInit)
+      headersOriginal: req.headers,
+    };
+    const pageContext = await renderPage(pageContextInit);
     if (pageContext.errorWhileRendering) {
       // Install error tracking here, see https://vike.dev/errors
     }
-    const { httpResponse } = pageContext
+    const { httpResponse } = pageContext;
     if (!httpResponse) {
-      return next()
+      return next();
     } else {
-      const { body, statusCode, headers, earlyHints } = httpResponse
-      if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) })
-      headers.forEach(([name, value]) => res.setHeader(name, value))
-      res.status(statusCode)
+      const { body, statusCode, headers, earlyHints } = httpResponse;
+      if (res.writeEarlyHints) res.writeEarlyHints({ link: earlyHints.map((e) => e.earlyHintLink) });
+      headers.forEach(([name, value]) => res.setHeader(name, value));
+      res.status(statusCode);
       // For HTTP streams use httpResponse.pipe() instead, see https://vike.dev/streaming
-      res.send(body)
+      res.send(body);
     }
-  })
+  });
 
-  const port = process.env.PORT || 3000
-  app.listen(port)
-  console.log(`Server running at http://localhost:${port}`)
+  const port = process.env.PORT || 3000;
+  app.listen(port);
+  console.log(`Server running at http://localhost:${port}`);
 }

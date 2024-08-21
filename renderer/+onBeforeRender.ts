@@ -1,5 +1,5 @@
-import type { OnBeforeRenderAsync } from 'vike/types';
 import { allSettled, fork, serialize } from 'effector';
+import type { OnBeforeRenderAsync } from 'vike/types';
 
 export const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {
   const { pageInitiated } = pageContext.config;

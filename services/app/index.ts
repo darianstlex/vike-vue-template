@@ -10,4 +10,4 @@ const $isClient = createStore(typeof document !== 'undefined', {
 export const appService = {
   appStarted,
   $isClient,
-}
+};

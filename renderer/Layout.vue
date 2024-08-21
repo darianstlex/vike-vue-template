@@ -1,8 +1,8 @@
 <template>
   <div id="page-container">
     <div id="sidebar">
-      <a href="/" id="logo-container">
-        <img src="./logo.svg" height="64" width="64" alt="logo" />
+      <a id="logo-container" href="/">
+        <img alt="logo" height="64" src="./logo.svg" width="64" />
       </a>
       <Link href="/">Welcome</Link>
       <Link href="/about">About</Link>
@@ -13,8 +13,9 @@
 </template>
 
 <script lang="ts" setup>
-import Link from './Link.vue'
-import './css/index.css'
+import './css/index.css';
+
+import Link from './Link.vue';
 </script>
 
 <style>

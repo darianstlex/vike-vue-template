@@ -1,5 +1,5 @@
-import type { Unit, Scope, Event, Store, Effect } from 'effector';
-import { is, createWatch, scopeBind } from 'effector';
+import type { Effect, Event, Scope, Store, Unit } from 'effector';
+import { createWatch, is, scopeBind } from 'effector';
 import type { DeepReadonly, Ref } from 'vue';
 import { onUnmounted, shallowRef } from 'vue';
 
@@ -33,7 +33,7 @@ export function useUnit<List extends (Event<any> | Effect<any, any> | Store<any>
         : never;
 };
 export function useUnit<Shape extends Record<string, Event<any> | Effect<any, any, any> | Store<any>>>(
-  shape: Shape | { "@@unitShape": () => Shape },
+  shape: Shape | { '@@unitShape': () => Shape },
   opts?: { forceScope?: boolean },
 ): {
   [Key in keyof Shape]: Shape[Key] extends Event<infer T>
@@ -49,7 +49,7 @@ export function useUnit<Shape extends Record<string, Event<any> | Effect<any, an
         : never;
 };
 
-export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shape | { "@@unitShape": () => Shape }) {
+export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shape | { '@@unitShape': () => Shape }) {
   const scope = useScope();
 
   const isSingleUnit = is.unit(config);
@@ -57,11 +57,11 @@ export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shap
   let normShape: { [key: string]: Unit<any> } = {};
   if (isSingleUnit) {
     normShape = { unit: config };
-  } else if ("@@unitShape" in config) {
-    if (typeof config["@@unitShape"] === "function") {
-      normShape = config["@@unitShape"]();
+  } else if ('@@unitShape' in config) {
+    if (typeof config['@@unitShape'] === 'function') {
+      normShape = config['@@unitShape']();
     } else {
-      throw "expect @@unitShape to be a function";
+      throw 'expect @@unitShape to be a function';
     }
   } else {
     normShape = config;
@@ -74,7 +74,7 @@ export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shap
 
   for (const key in normShape) {
     const unit = normShape[key];
-    if (!is.unit(unit)) throw "expect useUnit argument to be a unit";
+    if (!is.unit(unit)) throw 'expect useUnit argument to be a unit';
     if (is.event(unit) || is.effect(unit)) {
       eventKeys.push(key);
     } else {

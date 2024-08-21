@@ -5,6 +5,6 @@ export async function data(pageContext: PageContextServer) {
   const { id } = routeParams;
 
   return {
-    sampleData: { id: id ?? "<empty>" },
+    sampleData: { id: id ?? 'none' },
   };
 }

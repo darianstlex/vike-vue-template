@@ -1,12 +1,12 @@
+import { objectAssign } from '@utils/objectAssign';
+import { setData } from '@utils/useData';
+import { setPageContext } from '@utils/usePageContext';
+import { setScope } from '@utils/useScope';
 import type { Scope } from 'effector';
 import { fork, serialize } from 'effector';
 import type { PageContext } from 'vike/types';
 import { createSSRApp, h, shallowRef } from 'vue';
 
-import { objectAssign } from '@utils/objectAssign';
-import { setData } from '@utils/useData';
-import { setPageContext } from '@utils/usePageContext';
-import { setScope } from '@utils/useScope';
 import Layout from './Layout.vue';
 
 export const createVueApp = (pageContext: PageContext) => {
@@ -15,7 +15,7 @@ export const createVueApp = (pageContext: PageContext) => {
   const pageRef = shallowRef(pageContext.Page);
 
   const scope =
-    "scope" in pageContext
+    'scope' in pageContext
       ? pageContext.scope
       : fork(pageContext.scopeValues ? { values: pageContext.scopeValues } : undefined);
 
@@ -30,15 +30,17 @@ export const createVueApp = (pageContext: PageContext) => {
   // app.changePage() is called upon navigation, see +onRenderClient.ts
   objectAssign(app, {
     changePage: (pageContext: PageContext) => {
-      scopeRef.value = fork({ values: {
-        ...serialize(scopeRef.value),
-        ...pageContext.scopeValues || {},
-      }});
+      scopeRef.value = fork({
+        values: {
+          ...serialize(scopeRef.value),
+          ...(pageContext.scopeValues || {}),
+        },
+      });
       pageContextRef.value = pageContext;
       dataRef.value = pageContext.data;
       pageRef.value = pageContext.Page;
-    }
+    },
   });
 
   return app;
-}
+};

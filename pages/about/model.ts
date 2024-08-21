@@ -4,4 +4,4 @@ const $info = createStore('info from server', { sid: '$info' });
 
 export const model = {
   $info,
-}
+};

@@ -6,6 +6,7 @@
 
 <script lang="ts" setup>
 import { useUnit } from '@utils/effector';
+
 import { model } from './model';
 
 const info = useUnit(model.$info);

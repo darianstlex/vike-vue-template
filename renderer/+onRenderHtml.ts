@@ -1,12 +1,12 @@
 // https://vike.dev/onRenderHtml
-import type { App } from 'vue'
-import { renderToString as renderToString_ } from '@vue/server-renderer'
-import type { OnRenderHtmlAsync } from 'vike/types'
-import { escapeInject, dangerouslySkipEscape } from 'vike/server'
+import { renderToString as renderToString_ } from '@vue/server-renderer';
+import { dangerouslySkipEscape, escapeInject } from 'vike/server';
+import type { OnRenderHtmlAsync } from 'vike/types';
+import type { App } from 'vue';
 
-import { createVueApp } from './createVueApp'
-import logoUrl from './logo.svg'
-import { getPageTitle } from './getPageTitle'
+import { createVueApp } from './createVueApp';
+import { getPageTitle } from './getPageTitle';
+import logoUrl from './logo.svg';
 
 export const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
   // This onRenderHtml() hook only supports SSR, see https://vike.dev/render-modes for how to modify
@@ -40,14 +40,14 @@ export const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<O
       // We can add custom pageContext properties here, see https://vike.dev/pageContext#custom
     },
   };
-}
+};
 
 async function renderToString(app: App) {
   let err: unknown;
   // Workaround: renderToString_() swallows errors in production, see https://github.com/vuejs/core/issues/7876
   app.config.errorHandler = (err_) => {
     err = err_;
-  }
+  };
   const appHtml = await renderToString_(app);
   if (err) throw err;
   return appHtml;

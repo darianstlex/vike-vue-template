@@ -7,8 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-import Link from '@/renderer/Link.vue';
 import { useUnit } from '@utils/effector';
+
+import Link from '@/renderer/Link.vue';
+
 import { model } from './model';
 
 const [id] = useUnit([model.$id]);

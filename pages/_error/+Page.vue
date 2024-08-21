@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-import { usePageContext } from '@utils/usePageContext'
+import { usePageContext } from '@utils/usePageContext';
 
-const pageContext = usePageContext()
-let { is404, abortReason } = pageContext.value
+const pageContext = usePageContext();
+let { is404, abortReason } = pageContext.value;
 if (!abortReason) {
-  abortReason = is404 ? 'Page not found.' : 'Something went wrong.'
+  abortReason = is404 ? 'Page not found.' : 'Something went wrong.';
 }
 </script>
 

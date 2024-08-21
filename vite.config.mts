@@ -1,14 +1,23 @@
-import vue from '@vitejs/plugin-vue'
-import vike from 'vike/plugin'
-import { UserConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url';
 
+import vue from '@vitejs/plugin-vue';
+import { telefunc } from 'telefunc/vite';
+import md from 'unplugin-vue-markdown/vite';
+import vike from 'vike/plugin';
+import type { UserConfig } from 'vite';
+
 const config: UserConfig = {
-  plugins: [vue({
-    script: {
-      propsDestructure: true,
-    },
-  }), vike()],
+  plugins: [
+    vike(),
+    telefunc(),
+    vue({
+      include: [/\.vue$/, /\.md$/],
+      script: {
+        propsDestructure: true,
+      },
+    }),
+    md({}),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./', import.meta.url)),
@@ -16,6 +25,6 @@ const config: UserConfig = {
       '@services': fileURLToPath(new URL('./services', import.meta.url)),
     },
   },
-}
+};
 
-export default config
+export default config;

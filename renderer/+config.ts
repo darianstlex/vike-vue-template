@@ -25,4 +25,4 @@ export default {
     },
   },
   hydrationCanBeAborted: true,
-} satisfies Config
+} satisfies Config;

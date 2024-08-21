@@ -1,13 +1,13 @@
 // https://vike.dev/onRenderClient
-import type { OnRenderClientAsync } from 'vike/types'
-import { allSettled } from 'effector';
-
 import { appService } from '@services/app';
 import { useScope } from '@utils/useScope';
-import { createVueApp } from './createVueApp'
-import { getPageTitle } from './getPageTitle'
+import { allSettled } from 'effector';
+import type { OnRenderClientAsync } from 'vike/types';
 
-let app: ReturnType<typeof createVueApp>
+import { createVueApp } from './createVueApp';
+import { getPageTitle } from './getPageTitle';
+
+let app: ReturnType<typeof createVueApp>;
 export const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnType<OnRenderClientAsync> => {
   const { pageStarted } = pageContext.config;
   // This onRenderClient() hook only supports SSR, see https://vike.dev/render-modes for how to modify onRenderClient()
@@ -33,4 +33,4 @@ export const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnTy
     });
   }
   document.title = getPageTitle(pageContext);
-}
+};
