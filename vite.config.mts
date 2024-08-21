@@ -1,10 +1,10 @@
 import { fileURLToPath, URL } from 'node:url';
-
-import vue from '@vitejs/plugin-vue';
 import { telefunc } from 'telefunc/vite';
 import md from 'unplugin-vue-markdown/vite';
 import vike from 'vike/plugin';
 import type { UserConfig } from 'vite';
+
+import vue from '@vitejs/plugin-vue';
 
 const config: UserConfig = {
   plugins: [

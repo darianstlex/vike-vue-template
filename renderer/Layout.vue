@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts" setup>
-import './css/index.css';
-
 import Link from './Link.vue';
+
+import './css/index.css';
 </script>
 
 <style>

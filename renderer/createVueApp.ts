@@ -1,15 +1,17 @@
+import type { Scope } from 'effector';
+import { fork, serialize } from 'effector';
+import type { PageContext } from 'vike/types';
+import { createApp, createSSRApp, h, shallowRef } from 'vue';
+
 import { objectAssign } from '@utils/objectAssign';
 import { setData } from '@utils/useData';
 import { setPageContext } from '@utils/usePageContext';
 import { setScope } from '@utils/useScope';
-import type { Scope } from 'effector';
-import { fork, serialize } from 'effector';
-import type { PageContext } from 'vike/types';
-import { createSSRApp, h, shallowRef } from 'vue';
 
 import Layout from './Layout.vue';
 
-export const createVueApp = (pageContext: PageContext) => {
+export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
+  const createAppFunc = clientOnly ? createApp : createSSRApp;
   const pageContextRef = shallowRef(pageContext);
   const dataRef = shallowRef(pageContext.data);
   const pageRef = shallowRef(pageContext.Page);
@@ -22,7 +24,7 @@ export const createVueApp = (pageContext: PageContext) => {
   const scopeRef = shallowRef(scope as Scope);
 
   const RootComponent = () => h(Layout, null, () => h(pageRef.value));
-  const app = createSSRApp(RootComponent);
+  const app = createAppFunc(RootComponent);
   setPageContext(app, pageContextRef);
   setData(app, dataRef);
   setScope(app, scopeRef);

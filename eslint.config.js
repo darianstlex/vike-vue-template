@@ -66,7 +66,20 @@ export default tseslint.config(
       'no-unused-vars': 'off',
       'comma-dangle': ['error', 'always-multiline'],
       'comma-spacing': [2, { before: false, after: true }],
-      'simple-import-sort/imports': 'error',
+      'simple-import-sort/imports': [
+        'error',
+        {
+          groups: [
+            ['^\\0'],
+            ['^[a-z]', '^[A-Z]'],
+            ['^@', '^\\w'],
+            ['^\\u0000'],
+            ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+            ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+            ['^.+\\.s?css$'],
+          ],
+        },
+      ],
       'simple-import-sort/exports': 'error',
       // vue
       'vue/no-setup-props-destructure': 'off',

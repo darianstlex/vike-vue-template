@@ -4,8 +4,9 @@
   </a>
 </template>
 <script lang="ts" setup>
-import { usePageContext } from '@utils/usePageContext';
 import { computed, useAttrs } from 'vue';
+
+import { usePageContext } from '@utils/usePageContext';
 
 const pageContext = usePageContext();
 const { href } = useAttrs() as { href: string };

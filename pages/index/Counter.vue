@@ -3,8 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useUnit } from '@utils/effector';
 import { reactive, watch } from 'vue';
+
+import { useUnit } from '@utils/effector';
 
 import { model } from './model';
 

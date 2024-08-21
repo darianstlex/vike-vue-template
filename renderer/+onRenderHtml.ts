@@ -1,21 +1,17 @@
 // https://vike.dev/onRenderHtml
-import { renderToString as renderToString_ } from '@vue/server-renderer';
 import { dangerouslySkipEscape, escapeInject } from 'vike/server';
 import type { OnRenderHtmlAsync } from 'vike/types';
 import type { App } from 'vue';
+
+import { renderToString as renderToString_ } from '@vue/server-renderer';
 
 import { createVueApp } from './createVueApp';
 import { getPageTitle } from './getPageTitle';
 import logoUrl from './logo.svg';
 
 export const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
-  // This onRenderHtml() hook only supports SSR, see https://vike.dev/render-modes for how to modify
-  // onRenderHtml() to support SPA
-  if (!pageContext.Page) throw new Error('My render() hook expects pageContext.Page to be defined');
-
   const app = createVueApp(pageContext);
-
-  const appHtml = await renderToString(app);
+  const appHtml = pageContext.Page ? await renderToString(app) : '';
 
   const title = getPageTitle(pageContext);
   const desc = pageContext.data?.description || pageContext.config.description || 'Demo of using Vike';
