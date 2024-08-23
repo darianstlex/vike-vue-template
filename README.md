@@ -1,6 +1,6 @@
 ## Vike + Vue + Effector + SSR
 
-This template is based on Vike + Effector.
+This template is based on Vike + Vue + Effector.
 
 `vike-vue` is not used to have better control over rendering mechanism.
 
