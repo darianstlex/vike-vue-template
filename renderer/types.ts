@@ -2,6 +2,7 @@ import type { EventCallable, Scope } from 'effector';
 
 export type { Component };
 
+import type { PageContextServer } from 'vike/types';
 import type { ComponentPublicInstance } from 'vue';
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
@@ -23,8 +24,13 @@ declare global {
         title?: string;
         /** Value for <meta name="description"> defined statically */
         description?: string;
-        /** Page init/start events */
-        pageInitiated?: EventCallable<{ params: Record<string, string>; data: unknown }>;
+        /** Hook that runs after page init */
+        onAfterInit?: (pageContext: PageContextServer) => Promise<void>;
+        /** Hook that runs before page init */
+        onBeforeInit?: (pageContext: PageContextServer) => Promise<void>;
+        /** Page init event - server side */
+        pageInitiated?: EventCallable<PageContextServer>;
+        /** Page start event - client side */
         pageStarted?: EventCallable<{ params: Record<string, string>; data: unknown }>;
       };
       /** https://vike.dev/render */

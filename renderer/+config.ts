@@ -15,6 +15,14 @@ export default {
     description: {
       env: { server: true, client: true },
     },
+    // runs before page init
+    onBeforeInit: {
+      env: { server: true, client: false },
+    },
+    // runs after page init
+    onAfterInit: {
+      env: { server: true, client: false },
+    },
     // Event - fires on server side when the page gets initiated
     pageInitiated: {
       env: { client: false, server: true },
