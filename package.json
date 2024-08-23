@@ -10,6 +10,7 @@
   "dependencies": {
     "@vue/server-renderer": "^3.4.38",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "effector": "^23.2.2",
     "express": "^4.19.2",
     "node-fetch": "^3.3.2",
@@ -22,11 +23,13 @@
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/compression": "^1.7.5",
+    "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "@types/node": "^20.16.1",
     "@vitejs/plugin-vue": "^5.1.2",
     "@vue/compiler-sfc": "^3.4.38",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
