@@ -1,10 +1,10 @@
 import { sample } from 'effector';
 
-import { createPageStart } from '@utils/events';
+import { createPageInit } from '@utils/events';
 
 import { $counterServer } from './model';
 
-export const pageInitiated = createPageStart();
+export const pageInitiated = createPageInit();
 
 sample({
   clock: pageInitiated,

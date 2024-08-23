@@ -1,8 +1,10 @@
 import { createEvent } from 'effector';
+import type { PageContextServer } from 'vike/types';
 
-export function createPageStart<T = void>() {
-  return createEvent<{
-    params: Record<string, string>;
-    data: T;
-  }>();
-}
+export const createPageInit = <T = void>() => {
+  return createEvent<PageContextServer & { data: T & PageContextServer['data'] }>();
+};
+
+export const createPageStart = <T = void>() => {
+  return createEvent<{ data: T; params: Record<string, string> }>();
+};
