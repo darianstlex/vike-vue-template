@@ -23,8 +23,6 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
   const dataRef = shallowRef(pageContext.data);
   const pageRef = shallowRef(getPage(pageContext));
 
-  const PageLayout = pageContext.config.Layout || Layout;
-
   const scope =
     'scope' in pageContext
       ? pageContext.scope
