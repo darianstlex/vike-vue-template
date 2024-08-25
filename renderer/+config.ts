@@ -31,6 +31,14 @@ export default {
     pageStarted: {
       env: { client: true, server: false },
     },
+    // Component - custom page layout
+    Layout: {
+      env: { client: true, server: true },
+    },
+    // Component - extra page wrapper
+    Wrapper: {
+      env: { client: true, server: true },
+    },
   },
   hydrationCanBeAborted: true,
 } satisfies Config;

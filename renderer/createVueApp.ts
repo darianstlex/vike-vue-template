@@ -10,11 +10,20 @@ import { setScope } from '@utils/useScope';
 
 import Layout from './Layout.vue';
 
+const getPage = (pageContext: PageContext) => {
+  return () =>
+    h(pageContext.config.Layout || Layout, null, () =>
+      pageContext.config.Wrapper ? h(pageContext.config.Wrapper, null, () => h(pageContext.Page)) : h(pageContext.Page),
+    );
+};
+
 export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
   const createAppFunc = clientOnly ? createApp : createSSRApp;
   const pageContextRef = shallowRef(pageContext);
   const dataRef = shallowRef(pageContext.data);
-  const pageRef = shallowRef(pageContext.Page);
+  const pageRef = shallowRef(getPage(pageContext));
+
+  const PageLayout = pageContext.config.Layout || Layout;
 
   const scope =
     'scope' in pageContext
@@ -23,7 +32,7 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
 
   const scopeRef = shallowRef(scope as Scope);
 
-  const RootComponent = () => h(Layout, null, () => h(pageRef.value));
+  const RootComponent = () => h(pageRef.value);
   const app = createAppFunc(RootComponent);
   setPageContext(app, pageContextRef);
   setData(app, dataRef);
@@ -40,7 +49,7 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
       });
       pageContextRef.value = pageContext;
       dataRef.value = pageContext.data;
-      pageRef.value = pageContext.Page;
+      pageRef.value = getPage(pageContext);
     },
   });
 

@@ -3,7 +3,7 @@ import type { EventCallable, Scope } from 'effector';
 export type { Component };
 
 import type { PageContextServer } from 'vike/types';
-import type { ComponentPublicInstance } from 'vue';
+import type { ComponentPublicInstance, ConcreteComponent } from 'vue';
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 type Page = Component;
@@ -32,6 +32,10 @@ declare global {
         pageInitiated?: EventCallable<PageContextServer>;
         /** Page start event - client side */
         pageStarted?: EventCallable<{ params: Record<string, string>; data: unknown }>;
+        /** Page Layout component */
+        Layout?: Component;
+        /** Page Wrapper component */
+        Wrapper?: Component;
       };
       /** https://vike.dev/render */
       abortReason?: string;

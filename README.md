@@ -10,9 +10,14 @@ All standard hooks can be used, plus some extra to control effector values
 
 Data flow:
 
-`+data`: vike hook for initial data preparation if needed\
-`+onBeforeInit`: hook, fires before page init event on server side, have access to the effector scope\
-`+pageInitiated`: effector event, fires on page init on server side.\
-`+onAfterInit`: hook, fires after page init event on server side, have access to the effector scope\
+`+data.ts`: vike hook for initial data preparation if needed\
+`+onBeforeInit.ts`: hook, fires before page init event on server side, have access to the effector scope\
+`+pageInitiated.ts`: effector event, fires on page init on server side.\
+`+onAfterInit.ts`: hook, fires after page init event on server side, have access to the effector scope\
 `appStarted`: effector event, fires on app start on client side.\
-`+pageStarted`: effector event, fires on page start on client side.
+`+pageStarted.ts`: effector event, fires on page start on client side.
+
+Page Components:
+
+`+Layout.vue`: custom layout component to override the global one\
+`+Wrapper.vue`: additional page wrapper
