@@ -2,7 +2,7 @@
   <div id="page-container">
     <div id="sidebar">
       <a id="logo-container" href="/">
-        <img alt="logo" height="64" src="./logo.svg" width="64" />
+        <img alt="logo" height="64" src="./styles/logo.svg" width="64" />
       </a>
       <Link href="/">Welcome</Link>
       <Link href="/about">About</Link>

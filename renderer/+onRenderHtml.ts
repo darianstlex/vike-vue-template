@@ -5,9 +5,9 @@ import type { App } from 'vue';
 
 import { renderToString as renderToString_ } from '@vue/server-renderer';
 
+import logoUrl from './styles/logo.svg';
 import { createVueApp } from './createVueApp';
 import { getPageTitle } from './getPageTitle';
-import logoUrl from './logo.svg';
 
 export const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
   const app = createVueApp(pageContext);
