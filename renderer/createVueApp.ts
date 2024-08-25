@@ -1,7 +1,7 @@
 import type { Scope } from 'effector';
 import { fork, serialize } from 'effector';
 import type { PageContext } from 'vike/types';
-import { createApp, createSSRApp, h, shallowRef } from 'vue';
+import { createApp, createSSRApp, h, type SetupContext, shallowRef } from 'vue';
 
 import { objectAssign } from '@utils/objectAssign';
 import { setData } from '@utils/useData';
@@ -9,7 +9,10 @@ import { setPageContext } from '@utils/usePageContext';
 import { setScope } from '@utils/useScope';
 
 import Layout from './Layout.vue';
-import Wrapper from './Wrapper.vue';
+
+const Wrapper = {
+  setup: (_: any, ctx: SetupContext) => () => ctx?.slots?.default?.(),
+};
 
 export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
   const createAppFunc = clientOnly ? createApp : createSSRApp;
