@@ -26,7 +26,7 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
 
   const scopeRef = shallowRef(scope as Scope);
 
-  const RootComponent = () => h(layoutRef.value, null, () => h(wrapperRef.value, null, () => h(pageRef.value)));
+  const RootComponent = () => h(layoutRef.value, () => h(wrapperRef.value, () => h(pageRef.value)));
   const app = createAppFunc(RootComponent);
   setPageContext(app, pageContextRef);
   setData(app, dataRef);
