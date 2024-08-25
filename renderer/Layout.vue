@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import Link from './Link.vue';
 
-import './css/index.css';
+import './styles/index.scss';
 </script>
 
 <style>
