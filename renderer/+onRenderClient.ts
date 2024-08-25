@@ -15,12 +15,12 @@ export const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnTy
   if (!app) {
     app = createVueApp(pageContext, document.getElementById('#app')?.innerHTML === '');
     app.mount('#app');
-    const scope = app.runWithContext(() => useScope());
+    const scope = app.runWithContext(useScope);
     await allSettled(appService.appStarted, { scope: scope.value });
   } else {
     app.changePage(pageContext);
   }
-  const scope = app.runWithContext(() => useScope());
+  const scope = app.runWithContext(useScope);
   if (pageStarted) {
     await allSettled(pageStarted, {
       scope: scope.value,
