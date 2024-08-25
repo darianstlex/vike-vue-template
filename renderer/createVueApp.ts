@@ -9,19 +9,15 @@ import { setPageContext } from '@utils/usePageContext';
 import { setScope } from '@utils/useScope';
 
 import Layout from './Layout.vue';
-
-const getPage = (pageContext: PageContext) => {
-  return () =>
-    h(pageContext.config.Layout || Layout, null, () =>
-      pageContext.config.Wrapper ? h(pageContext.config.Wrapper, null, () => h(pageContext.Page)) : h(pageContext.Page),
-    );
-};
+import Wrapper from './Wrapper.vue';
 
 export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
   const createAppFunc = clientOnly ? createApp : createSSRApp;
   const pageContextRef = shallowRef(pageContext);
   const dataRef = shallowRef(pageContext.data);
-  const pageRef = shallowRef(getPage(pageContext));
+  const pageRef = shallowRef(pageContext.Page);
+  const layoutRef = shallowRef(pageContext.config.Layout || Layout);
+  const wrapperRef = shallowRef(pageContext.config.Wrapper || Wrapper);
 
   const scope =
     'scope' in pageContext
@@ -30,7 +26,7 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
 
   const scopeRef = shallowRef(scope as Scope);
 
-  const RootComponent = () => h(pageRef.value);
+  const RootComponent = () => h(layoutRef.value, null, () => h(wrapperRef.value, null, () => h(pageRef.value)));
   const app = createAppFunc(RootComponent);
   setPageContext(app, pageContextRef);
   setData(app, dataRef);
@@ -47,7 +43,9 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
       });
       pageContextRef.value = pageContext;
       dataRef.value = pageContext.data;
-      pageRef.value = getPage(pageContext);
+      layoutRef.value = pageContext.config.Layout || Layout;
+      wrapperRef.value = pageContext.config.Wrapper || Wrapper;
+      pageRef.value = pageContext.Page;
     },
   });
 
