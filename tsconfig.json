@@ -11,8 +11,11 @@
     "esModuleInterop": true,
     "paths": {
       "@/*": ["./*"],
-      "@utils/*": ["./utils/*"],
-      "@services/*": ["./services/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
+      "@services/*": ["./src/services/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "ts-node": {

@@ -4,5 +4,5 @@
   <div><Link href="/">Go home</Link></div>
 </template>
 <script setup lang="ts">
-import Link from '@/renderer/Link.vue';
+import Link from '@components/Link.vue';
 </script>

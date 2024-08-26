@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import Link from '@/renderer/Link.vue';
+import Link from '@components/Link.vue';
 import { useUnit } from '@utils/effector';
 
 import { model } from './model';

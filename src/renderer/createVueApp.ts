@@ -8,9 +8,7 @@ import { setData } from '@utils/useData';
 import { setPageContext } from '@utils/usePageContext';
 import { setScope } from '@utils/useScope';
 
-import Layout from './Layout.vue';
-
-const Wrapper = {
+const Empty = {
   setup: (_: any, ctx: SetupContext) => () => ctx?.slots?.default?.(),
 };
 
@@ -19,8 +17,8 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
   const pageContextRef = shallowRef(pageContext);
   const dataRef = shallowRef(pageContext.data);
   const pageRef = shallowRef(pageContext.Page);
-  const layoutRef = shallowRef(pageContext.config.Layout || Layout);
-  const wrapperRef = shallowRef(pageContext.config.Wrapper || Wrapper);
+  const layoutRef = shallowRef(pageContext.config.Layout || Empty);
+  const wrapperRef = shallowRef(pageContext.config.Wrapper || Empty);
 
   const scope =
     'scope' in pageContext
@@ -46,8 +44,8 @@ export const createVueApp = (pageContext: PageContext, clientOnly = false) => {
       });
       pageContextRef.value = pageContext;
       dataRef.value = pageContext.data;
-      layoutRef.value = pageContext.config.Layout || Layout;
-      wrapperRef.value = pageContext.config.Wrapper || Wrapper;
+      layoutRef.value = pageContext.config.Layout || Empty;
+      wrapperRef.value = pageContext.config.Wrapper || Empty;
       pageRef.value = pageContext.Page;
     },
   });

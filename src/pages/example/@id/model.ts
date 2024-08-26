@@ -1,4 +1,4 @@
-import { createStore, sample } from 'effector';
+import { createStore } from 'effector';
 
 export const $id = createStore('', { sid: '$example-id' });
 

@@ -112,7 +112,7 @@ export default tseslint.config(
       // prettier
       'prettier/prettier': ['error', { singleQuote: true }],
       // typescript
-      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/no-namespace': 'off',

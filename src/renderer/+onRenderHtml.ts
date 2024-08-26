@@ -3,9 +3,9 @@ import { dangerouslySkipEscape, escapeInject } from 'vike/server';
 import type { OnRenderHtmlAsync } from 'vike/types';
 import type { App } from 'vue';
 
+import logoUrl from '@assets/logo.svg';
 import { renderToString as renderToString_ } from '@vue/server-renderer';
 
-import logoUrl from './styles/logo.svg';
 import { createVueApp } from './createVueApp';
 import { getPageTitle } from './getPageTitle';
 
