@@ -1,7 +1,7 @@
-import type { Effect, Event, Scope, Store, Unit } from 'effector';
+import type { Effect, Event, EventCallable, Scope, Store, Unit } from 'effector';
 import { createWatch, is, scopeBind } from 'effector';
-import type { DeepReadonly, Ref } from 'vue';
-import { onUnmounted, shallowRef } from 'vue';
+import type { DeepReadonly, Ref, ShallowRef } from 'vue';
+import { onUnmounted, shallowRef, watch } from 'vue';
 
 import { useScope } from './useScope';
 
@@ -9,6 +9,60 @@ type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ?
 
 const stateReader = <T>(store: Store<T>, scope?: Scope) => {
   return scope ? scope.getState(store) : store.getState();
+};
+
+/**
+ * Watch scope changes and bind it to the unit
+ */
+const scopeBindWatch = (unit: EventCallable<any> | Effect<any, any>, scopeRef: Ref<Scope>) => {
+  const unitRef = shallowRef<EventCallable<any> | Effect<any, any>>();
+  unitRef.value = scopeBind(unit, { scope: scopeRef?.value, safe: true });
+
+  const unwatchScope = scopeRef?.value
+    ? watch(scopeRef, (scope) => {
+        unitRef.value = scopeBind(unit, { scope, safe: true });
+      })
+    : undefined;
+
+  onUnmounted(() => {
+    unwatchScope?.();
+  });
+
+  return (data: any) => {
+    return unitRef.value?.(data);
+  };
+};
+
+const unitWatch = (unit: Store<any>, valRef: ShallowRef<any>, scope: Scope) => {
+  return createWatch({
+    unit,
+    fn: (value) => {
+      valRef.value = shallowRef(value).value;
+    },
+    scope,
+  });
+};
+
+/**
+ * Watch scope changes and recreate store watcher
+ */
+const createDoubleWatch = (unit: Store<any>, valRef: ShallowRef<any>, scopeRef: Ref<Scope>) => {
+  const subRef = shallowRef();
+  valRef.value = stateReader(unit, scopeRef?.value);
+  subRef.value = unitWatch(unit, valRef, scopeRef?.value);
+
+  const unwatchScope = scopeRef?.value
+    ? watch(scopeRef, (scope) => {
+        valRef.value = stateReader(unit, scope);
+        subRef.value?.();
+        subRef.value = unitWatch(unit, valRef, scope);
+      })
+    : undefined;
+
+  onUnmounted(() => {
+    unwatchScope?.();
+    subRef.value?.();
+  });
 };
 
 export function useUnit<State>(store: Store<State>, opts?: { forceScope?: boolean }): DeepReadonly<Ref<State>>;
@@ -50,8 +104,7 @@ export function useUnit<Shape extends Record<string, Event<any> | Effect<any, an
 };
 
 export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shape | { '@@unitShape': () => Shape }) {
-  const scope = useScope();
-
+  const scopeRef = useScope();
   const isSingleUnit = is.unit(config);
 
   let normShape: { [key: string]: Unit<any> } = {};
@@ -84,28 +137,10 @@ export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shap
 
   const states: Record<string, any> = {};
   for (const key of storeKeys) {
-    // @ts-expect-error TS can't infer that normShape[key] is a Store
-    const state = stateReader(normShape[key], scope.value);
-    const ref = shallowRef(state);
-    const stop = createWatch({
-      unit: normShape[key],
-      fn: (value) => {
-        ref.value = shallowRef(value).value;
-      },
-      scope: scope.value,
-    });
-
-    states[key] = {
-      stop,
-      ref,
-    };
+    const ref = shallowRef();
+    createDoubleWatch(normShape[key] as Store<any>, ref, scopeRef);
+    states[key] = { ref };
   }
-
-  onUnmounted(() => {
-    for (const val of Object.values(states)) {
-      val.stop();
-    }
-  });
 
   if (isSingleUnit && is.store(config)) {
     return states.unit.ref;
@@ -113,14 +148,14 @@ export function useUnit<Shape extends { [key: string]: Unit<any> }>(config: Shap
 
   if (isSingleUnit && is.event(config)) {
     // @ts-expect-error TS can't infer that normShape.unit is an Effect/Event
-    return scopeBind(normShape.unit, { scope: scope.value, safe: true });
+    return scopeBindWatch(normShape.unit, scopeRef);
   }
 
   const result: Record<string, any> = {};
 
   for (const key of eventKeys) {
     // @ts-expect-error TS can't infer that normShape[key] is an Effect/Event
-    result[key] = scopeBind(normShape[key], { scope: scope.value, safe: true });
+    result[key] = scopeBindWatch(normShape[key], scopeRef);
   }
   for (const [key, value] of Object.entries(states)) {
     result[key] = value.ref;
